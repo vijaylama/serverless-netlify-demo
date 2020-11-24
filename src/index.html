@@ -21,3 +21,9 @@ layout: layout.njk
     <button>Get my APOYBs</button>
   </p>
 </form>
+
+<script>
+  fetch('/.netlify/functions/hello')
+    .then(response => response.json())
+    .then(json => console.log({json}))
+</script>
