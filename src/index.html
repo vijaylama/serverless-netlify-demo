@@ -13,7 +13,7 @@ layout: layout.njk
 
 </header>
 
-<form action="">
+<form id="birthday-form">
   <label for="date">Your Birthday</label><br>
   <input type="date" name="date">
 
@@ -23,7 +23,25 @@ layout: layout.njk
 </form>
 
 <script>
-  fetch('/.netlify/functions/hello')
-    .then(response => response.json())
-    .then(json => console.log({json}))
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    const formData = new FormData(e.target)
+    const date = formData.get("date")
+
+    fetch('/.netlify/functions/apod', {
+      method: "POST",
+      body: JSON.stringify({date})
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok")
+        }
+        return response.json()
+      })
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+  }
+
+  document.querySelector("#birthday-form").addEventListener("submit", handleSubmit)
 </script>
