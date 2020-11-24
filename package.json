@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx eleventy --input=src",
-    "start": "npx eleventy --input=src --serve",
-    "watch": "npx eleventy --input=src --watch",
-    "debug": "DEBUG=* npx eleventy --input=src"
+    "build": "npx @11ty/eleventy --input=src",
+    "start": "npx @11ty/eleventy --input=src --serve",
+    "watch": "npx @11ty/eleventy --input=src --watch",
+    "debug": "DEBUG=* npx @11ty/eleventy --input=src"
   },
   "keywords": [],
   "author": "",
