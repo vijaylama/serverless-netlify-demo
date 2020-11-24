@@ -38,6 +38,7 @@ layout: layout.njk
 
   function render(data) {
     const target = document.querySelector("#apods");
+    target.innerHTML = ""
     const template = document.querySelector(".apod-template");
 
     const clone = template.content.cloneNode(true);
