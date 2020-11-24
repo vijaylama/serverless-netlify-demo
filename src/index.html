@@ -13,16 +13,29 @@ layout: layout.njk
 
 </header>
 
-<form action="">
+<form id="birthday-form">
   <label for="date">Your Birthday</label><br>
-  <input type="date" name="date">
+  <input type="date" name="date" id="date-input">
 
   <p>
     <button>Get my APOYBs</button>
   </p>
 </form>
 
+<section id="apods"></section>
+
+<template class="apod-template">
+  <article class="apod">
+    <img src="" alt="">
+    <h2></h2>
+    <p class="explanation"></p>
+    <small class="hidden">Copyright: <span class="copyright"></span></small>
+  </article>
+</template>
+
 <script>
+  document.querySelector("#date-input").max = new Date().toLocaleDateString('en-CA')
+
   fetch('/.netlify/functions/hello')
     .then(response => response.json())
     .then(json => console.log({json}))
