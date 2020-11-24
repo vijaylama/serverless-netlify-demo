@@ -15,14 +15,44 @@ layout: layout.njk
 
 <form id="birthday-form">
   <label for="date">Your Birthday</label><br>
-  <input type="date" name="date">
+  <input type="date" name="date" id="date-input">
 
   <p>
     <button>Get my APOYBs</button>
   </p>
 </form>
 
+<section id="apods"></section>
+
+<template class="apod-template">
+  <article class="apod">
+    <img src="" alt="">
+    <h2></h2>
+    <p class="explanation"></p>
+    <small class="hidden">Copyright: <span class="copyright"></span></small>
+  </article>
+</template>
+
 <script>
+  document.querySelector("#date-input").max = new Date().toLocaleDateString('en-CA')
+
+  function render(data) {
+    const target = document.querySelector("#apods");
+    const template = document.querySelector(".apod-template");
+
+    const clone = template.content.cloneNode(true);
+    clone.querySelector("img").src = data.url
+    clone.querySelector("h2").innerText = data.title
+    clone.querySelector(".explanation").innerText = data.explanation
+
+    if (data.copyright) {
+      clone.querySelector(".copyright").innerText = data.copyright
+      clone.querySelector("small").classList.remove("hidden")
+    }
+
+    apods.appendChild(clone);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -39,7 +69,10 @@ layout: layout.njk
         }
         return response.json()
       })
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data)
+        render(data)
+      })
       .catch(error => console.error(error))
   }
 

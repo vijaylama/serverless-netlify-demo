@@ -124,6 +124,17 @@ a:hover {
   width: 80px;
 }
 
+.apod {
+  margin-bottom: 64px;
+}
+.apod img {
+  max-width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
 @media screen and (min-width: 700px) {
   h1 {
     font-size: 3em;
