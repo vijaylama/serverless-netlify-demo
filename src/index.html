@@ -15,7 +15,7 @@ layout: layout.njk
 
 <form id="birthday-form">
   <label for="date">Your Birthday</label><br>
-  <input type="date" name="date" id="date-input">
+  <input type="date" name="date" id="date-input" required>
 
   <p>
     <button>Get my APOYBs</button>
@@ -27,6 +27,7 @@ layout: layout.njk
 <template class="apod-template">
   <article class="apod">
     <img src="" alt="">
+    <p class="date"></p>
     <h2></h2>
     <p class="explanation"></p>
     <small class="hidden">Copyright: <span class="copyright"></span></small>
@@ -36,22 +37,25 @@ layout: layout.njk
 <script>
   document.querySelector("#date-input").max = new Date().toLocaleDateString('en-CA')
 
-  function render(data) {
+  function render(values) {
     const target = document.querySelector("#apods");
     target.innerHTML = ""
     const template = document.querySelector(".apod-template");
 
-    const clone = template.content.cloneNode(true);
-    clone.querySelector("img").src = data.url
-    clone.querySelector("h2").innerText = data.title
-    clone.querySelector(".explanation").innerText = data.explanation
+    values.forEach(element => {
+      const clone = template.content.cloneNode(true);
+      clone.querySelector("img").src = element.url
+      clone.querySelector("h2").innerText = element.title
+      clone.querySelector(".date").innerText = element.date
+      clone.querySelector(".explanation").innerText = element.explanation
 
-    if (data.copyright) {
-      clone.querySelector(".copyright").innerText = data.copyright
-      clone.querySelector("small").classList.remove("hidden")
-    }
+      if (element.copyright) {
+        clone.querySelector(".copyright").innerText = element.copyright
+        clone.querySelector("small").classList.remove("hidden")
+      }
 
-    apods.appendChild(clone);
+      apods.appendChild(clone);
+    });
   }
 
   async function handleSubmit(e) {

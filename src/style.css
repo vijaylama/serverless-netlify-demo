@@ -130,6 +130,11 @@ a:hover {
 .apod img {
   max-width: 100%;
 }
+.apod .date {
+  color: var(--secondary-default);
+  float: right;
+  font-style: italic;
+}
 
 .hidden {
   display: none;
