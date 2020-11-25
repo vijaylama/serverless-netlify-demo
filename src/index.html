@@ -26,17 +26,20 @@ layout: layout.njk
 
 <template class="apod-template">
   <article class="apod">
-    <img src="" alt="">
-    <p class="date"></p>
-    <h2></h2>
-    <p class="explanation"></p>
-    <small class="hidden">Copyright: <span class="copyright"></span></small>
+    <div><img src="" alt=""></div>
+    <div class="videoWrapper hidden">
+      <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="apod-text">
+      <p class="date"></p>
+      <h2></h2>
+      <p class="explanation"></p>
+      <small class="hidden">&copy; <span class="copyright"></span></small>
+    </div>
   </article>
 </template>
 
 <script>
-  document.querySelector("#date-input").max = new Date().toLocaleDateString('en-CA')
-
   function render(values) {
     const target = document.querySelector("#apods");
     target.innerHTML = ""
@@ -44,10 +47,23 @@ layout: layout.njk
 
     values.forEach(element => {
       const clone = template.content.cloneNode(true);
-      clone.querySelector("img").src = element.url
+      const img = clone.querySelector("img")
       clone.querySelector("h2").innerText = element.title
       clone.querySelector(".date").innerText = element.date
       clone.querySelector(".explanation").innerText = element.explanation
+
+      switch (element.media_type) {
+        case "image":
+          img.src = element.url
+          break;
+        case "video":
+          clone.querySelector("iframe").src = element.url.split("youtube").join("youtube-nocookie")
+          clone.querySelector(".videoWrapper").classList.remove("hidden")
+          img.classList.add("hidden")
+          break;
+        default:
+          break;
+      }
 
       if (element.copyright) {
         clone.querySelector(".copyright").innerText = element.copyright

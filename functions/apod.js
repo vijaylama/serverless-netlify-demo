@@ -1,20 +1,25 @@
 const fetch = require('node-fetch')
 const parseISO = require('date-fns/parseISO')
+const getYear = require('date-fns/getYear')
 const getMonth = require('date-fns/getMonth')
 const getDate = require('date-fns/getDate')
 const isBefore = require('date-fns/isBefore')
+const differenceInYears = require('date-fns/differenceInYears')
+
+const FIRST_APOD_DATE = new Date(1995, 6, 16)
 
 function getDates(dateString) {
   const today = new Date()
-  const date = parseISO(dateString)
+  const thisYear = getYear(today)
 
+  const date = parseISO(dateString)
   const month = getMonth(date) + 1
   const day = getDate(date)
 
-  const startYear = isBefore(new Date(2020, month, day), today) ? 2020 : 2019
-  const NUM_YEARS = 5
+  const startYear = isBefore(new Date(thisYear, month, day), today) ? thisYear : thisYear - 1
+  const years = differenceInYears(date, FIRST_APOD_DATE)
 
-  return [...Array(NUM_YEARS).keys()].map(i => `${startYear - i}-${month}-${day}`)
+  return [...Array(years).keys()].map(i => `${startYear - i}-${month}-${day}`)
 }
 
 exports.handler = async function(event, context) {
