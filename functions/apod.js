@@ -1,6 +1,9 @@
 const fetch = require('node-fetch')
 
 exports.handler = async function(event, context) {
+  const { user } = context.clientContext
+  console.log(user);
+
   const BASE_URL = "https://api.nasa.gov/planetary/apod"
   const {date} = JSON.parse(event.body)
 

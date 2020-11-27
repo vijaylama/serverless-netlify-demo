@@ -59,9 +59,13 @@ layout: layout.njk
 
     const formData = new FormData(e.target)
     const date = formData.get("date")
+    const { access_token } = window.netlifyIdentity.currentUser().token
 
     fetch('/.netlify/functions/apod', {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
       body: JSON.stringify({date})
     })
       .then(response => {
