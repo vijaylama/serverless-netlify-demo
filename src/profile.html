@@ -1,0 +1,24 @@
+---
+layout: layout.njk
+---
+
+<h1>Profile</h1>
+
+<p id="name"></p>
+<p id="email"></p>
+
+<script>
+  function handleIdentityEvent(user) {
+    if (user && user.token) {
+      console.log({user});
+      document.querySelector("#name").innerText = user.user_metadata.full_name
+      document.querySelector("#email").innerText = user.email
+      return
+    }
+
+    window.location.pathname = '/'
+  }
+
+  window.netlifyIdentity.on('init', handleIdentityEvent)
+  window.netlifyIdentity.on('logout', handleIdentityEvent)
+</script>

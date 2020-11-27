@@ -18,8 +18,10 @@ title: Astronomy Picture of Your Birthday
       {% for nav in collections.nav %}
         <li><a href="{{ nav.url | url }}">{{ nav.data.title }}</a></li>
       {% endfor %}
+      <li><div data-netlify-identity-button></div></li>
     </ul>
   </nav>
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <main>
     {{ content | safe }}
   </main>
