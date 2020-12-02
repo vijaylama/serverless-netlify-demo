@@ -7,7 +7,9 @@ layout: layout.njk
 
   <div>
     <h1>Astronomy Picture of Your Birthday</h1>
-    <p>NASA's <a href="https://apod.nasa.gov/apod/astropix.html">Astronomy Picture of the Day (APOD) website</a> is cool but what would be even cooler is if we could see all the APOD's for our birthdays. Enter this fine website... APOYB. You're welcome.
+    <p>NASA's <a href="https://apod.nasa.gov/apod/astropix.html">Astronomy Picture of the Day (APOD) website</a> is cool
+      but what would be even cooler is if we could see all the APOD's for our birthdays. Enter this fine website...
+      APOYB. You're welcome.
     </p>
   </div>
 
@@ -34,5 +36,26 @@ layout: layout.njk
 </template>
 
 <script>
-  document.querySelector("#date-input").max = new Date().toLocaleDateString('en-CA')
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const date = formData.get("date")
+    fetch("/.netlify/functions/apod", {
+      method: "POST",
+      body: JSON.stringify({ date })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Bad response")
+        }
+        return response.json()
+      })
+      .then(json => {
+        console.log(json)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+  document.querySelector("#birthday-form").addEventListener("submit", handleSubmit)
 </script>
